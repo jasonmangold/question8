@@ -209,19 +209,65 @@
         }
 
         .assumptions {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            margin-top: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            position: relative;
+        }
+
+        .assumptions h2 {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .lock-icon {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+            position: absolute;
+            top: 25px;
         }
 
         .assumptions p {
             margin: 10px 0;
             color: #666;
+        }
+
+        .advisor-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .advisor-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            object-fit: cover;
+        }
+
+        .advisor-text {
+            font-size: 16px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .contact-button {
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .contact-button:hover {
+            background: #c0392b;
         }
 
         .pdf-content {
@@ -310,6 +356,19 @@
                     <span class="tooltip-text">Your current annual income</span>
                 </div>
             </div>
+            
+            <div class="assumptions">
+                <h2>Assumptions <img src="lock.jpg" alt="Lock Icon" class="lock-icon"></h2>
+                <p>Full Retirement Age: 67</p>
+                <p>Life Expectancy: 85</p>
+                <p>Annual Benefit Increase: 2%</p>
+            </div>
+
+            <div class="advisor-section">
+                <img src="Headshot.JPG" alt="Jason's Photo" class="advisor-image">
+                <p class="advisor-text">Talk with Jason to tailor your plan</p>
+                <button class="contact-button" onclick="window.location.href='mailto:jason@example.com'">Contact Jason</button>
+            </div>
         </div>
 
         <div class="graph-section">
@@ -333,13 +392,6 @@
                 <button class="download-button" onclick="downloadPDF()">Download Results</button>
             </div>
         </div>
-    </div>
-
-    <div class="assumptions">
-        <h2>Assumptions</h2>
-        <p>Full Retirement Age: 67</p>
-        <p>Life Expectancy: 85</p>
-        <p>Annual Benefit Increase: 2%</p>
     </div>
 
     <script>
