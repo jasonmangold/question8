@@ -321,20 +321,12 @@
                 
                 <div class="learn-more">
                     <h3>Learn More:</h3>
-                    <div class="report-list">
-                        <p>"Social Security Basics"</p>
-                        <p>"Maximizing Your Benefits"</p>
-                        <p>"Retirement Income Strategies"</p>
-                    </div>
+                    <div class="report-list" id="learnMoreList"></div>
                 </div>
 
                 <div class="related-topics">
                     <h3>Related Topics:</h3>
-                    <div class="report-list">
-                        <p>"When to Claim Social Security"</p>
-                        <p>"Tax Implications of Benefits"</p>
-                        <p>"Supplementing Retirement Income"</p>
-                    </div>
+                    <div class="report-list" id="relatedTopicsList"></div>
                 </div>
 
                 <p class="disclaimer">The suggested recommendations serve as general guidelines but may differ based on your unique financial circumstances. Contact a financial representative for a more personalized assessment.</p>
@@ -349,6 +341,109 @@
         <p>Life Expectancy: 85</p>
         <p>Annual Benefit Increase: 2%</p>
     </div>
+
+    <script>
+    // Learn More Reports (unique entries only)
+    const learnMoreReports = [
+        "An Overview of Social Security Benefits",
+        "Social Security Retirement Claiming Strategies for Married Couples",
+        "When to Take Social Security Retirement Benefits",
+        "Who Receives Social Security Benefits?",
+        "How Work Affects Social Security Benefits",
+        "Social Security Retirement Benefits",
+        "Taxation of Social Security Benefits",
+        "Early or Delayed Retirement's Effect on Social Security Benefits"
+    ];
+
+    // Related Topics Reports with Categories
+    const relatedTopics = {
+        "General": [
+            "Basic Steps in the Financial Planning Process",
+            "Choose the Financial Planning Team",
+            "Inflation (Graph)",
+            "The Need for Financial Planning"
+        ],
+        "LTC": [
+            "Annuity - LTC Combination Contracts",
+            "Choosing a Long-Term Care Policy",
+            "How Employer Provided LTC Insurance Works",
+            "How Individual LTC Insurance Works",
+            "Life Insurance - LTC Combination Policies",
+            "Long-Term Care",
+            "Long-Term Care Tax Issues",
+            "Paying for Long-Term Care"
+        ],
+        "Income": [
+            "Pyramid of Investments",
+            "How a Deferred Annuity Works",
+            "How a Deferred Income Annuity Works",
+            "How an Immediate Annuity Works"
+        ],
+        "RMD": [
+            "Inherited Retirement Accounts - Required Distributions Under the SECURE Act",
+            "Required Minimum Distributions",
+            "Required Minimum Distributions After Death - Non-Spouse Beneficiaries",
+            "Required Minimum Distributions After Death - Spousal Beneficiary",
+            "The Basics of Required Minimum Distributions"
+        ],
+        "Life Insurance": [
+            "General Purposes of Life Insurance",
+            "The Need for Responsible Planning",
+            "Types of Life Insurance Policies",
+            "Using Cash Value Life Insurance"
+        ],
+        "Estate Planning": [
+            "Advantages of a Will",
+            "Avoiding Probate",
+            "Basic Steps in the Estate Planning Process",
+            "Choose the Estate Planning Team",
+            "Meet the Estate Planning Team",
+            "The Importance of Beneficiary Designations",
+            "The Need for Estate Planning"
+        ]
+    };
+
+    // Function to shuffle array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // Function to populate Learn More reports
+    function populateLearnMore() {
+        const shuffledReports = shuffleArray([...learnMoreReports]);
+        const selectedReports = shuffledReports.slice(0, 3);
+        const learnMoreList = document.getElementById('learnMoreList');
+        learnMoreList.innerHTML = selectedReports
+            .map(report => `<p>"${report}"</p>`)
+            .join('');
+    }
+
+    // Function to populate Related Topics reports
+    function populateRelatedTopics() {
+        const categories = Object.keys(relatedTopics);
+        const shuffledCategories = shuffleArray([...categories]).slice(0, 3);
+        const relatedTopicsList = document.getElementById('relatedTopicsList');
+        
+        const selectedReports = shuffledCategories.map(category => {
+            const reports = relatedTopics[category];
+            return reports[Math.floor(Math.random() * reports.length)];
+        });
+
+        relatedTopicsList.innerHTML = selectedReports
+            .map(report => `<p>"${report}"</p>`)
+            .join('');
+    }
+
+    // Call functions when page loads
+    window.addEventListener('load', function() {
+        populateLearnMore();
+        populateRelatedTopics();
+    });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
@@ -398,7 +493,6 @@
             const birthdate = birthdateInput.value;
             const annualIncome = parseFloat(annualIncomeInput.value) || 0;
 
-            // Validate birthdate
             const birthdatePattern = /^\d{2}\/\d{2}\/\d{4}$/;
             if (!birthdatePattern.test(birthdate)) {
                 resultMessage.textContent = "Please enter a valid birthdate in MM/DD/YYYY format.";
@@ -418,7 +512,7 @@
 
             const fullRetirementAge = 67;
             const lifeExpectancy = 85;
-            const annualBenefitIncrease = 0.02; // 2%
+            const annualBenefitIncrease = 0.02;
 
             if (age < 0 || age > 100) {
                 resultMessage.textContent = "Please enter a valid birthdate.";
@@ -429,13 +523,11 @@
                 return;
             }
 
-            // Simplified Social Security benefit estimation
-            const maxIncome = 142800; // 2023 Social Security wage base
+            const maxIncome = 142800;
             const cappedIncome = Math.min(annualIncome, maxIncome);
-            const monthlyBenefit = cappedIncome * 0.4 / 12; // Rough estimate: 40% of average indexed monthly earnings
-            let annualBenefit = monthlyBenefit * 12; // Initial annual benefit
+            const monthlyBenefit = cappedIncome * 0.4 / 12;
+            let annualBenefit = monthlyBenefit * 12;
 
-            // Calculate benefits over time
             const yearsOfBenefits = lifeExpectancy - fullRetirementAge;
             const benefitData = [];
             let lifetimeBenefit = 0;
@@ -446,7 +538,6 @@
                 lifetimeBenefit += yearlyBenefit;
             }
 
-            // Update chart
             benefitsChart.data.labels = Array.from({ length: yearsOfBenefits + 1 }, (_, i) => `Year ${i}`);
             benefitsChart.data.datasets[0].data = benefitData;
             benefitsChart.options.plugins.annotation.annotations = [
@@ -477,7 +568,6 @@
             ];
             benefitsChart.update();
 
-            // Update result message
             const formattedAnnual = benefitData[0].toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
             const formattedLifetime = lifetimeBenefit.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
             resultMessage.innerHTML = `Based on the input you provided… You could expect to receive ${formattedAnnual} in the first year and a total benefit of ${formattedLifetime}. Consider meeting with a financial representative to discuss how you can maximize the benefits you receive.`;
